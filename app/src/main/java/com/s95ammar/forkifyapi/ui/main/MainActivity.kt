@@ -17,15 +17,16 @@ import com.s95ammar.forkifyapi.util.observeEvent
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val searchEditText: EditText by lazy { findViewById(R.id.search_edit_text) }
-    private val searchButton: Button by lazy { findViewById(R.id.search_Button) }
-    private val dishesRecyclerView: RecyclerView by lazy { findViewById(R.id.dishes_recycler_view) }
-    private val progressBar: ProgressBar by lazy { findViewById(R.id.progress) }
+    private lateinit var searchEditText: EditText
+    private lateinit var searchButton: Button
+    private lateinit var dishesRecyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
     private val adapter: DishesAdapter by lazy { DishesAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initViews()
 
         dishesRecyclerView.adapter = adapter
 
@@ -40,6 +41,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.showEvent.observeEvent(this) { mainUiEvent ->
             handleUiEvent(mainUiEvent)
         }
+    }
+
+    private fun initViews() {
+        searchEditText = findViewById(R.id.search_edit_text)
+        searchButton = findViewById(R.id.search_Button)
+        dishesRecyclerView = findViewById(R.id.dishes_recycler_view)
+        progressBar = findViewById(R.id.progress)
     }
 
     private fun handleUiEvent(uiEvent: MainUiEvent) {
